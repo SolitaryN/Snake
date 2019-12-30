@@ -5,7 +5,7 @@ int main(void)
 	//初始化一下Top和Head
 	Top->Next = NULL;
 	Head->Next = NULL;
-	Statistic("this is a good day"); 
+	Statistic("nohaohe"); 
 	Pop(Top);
 	printf("\n");
 	LinkPrintWeight(Head);
