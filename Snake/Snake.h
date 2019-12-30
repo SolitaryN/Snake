@@ -6,19 +6,19 @@
 typedef struct StackNode{
 	struct StackNode * Next;                                                                                                                                                                                                                                                                                                              
 	char data;
-} StackNode;					//´Ë´¦¶¨ÒåÁËÁ´Õ»µÄ½Úµã 
+} StackNode;					//æ­¤å¤„å®šä¹‰äº†é“¾æ ˆçš„èŠ‚ç‚¹ 
 
 typedef struct LinkNode{
-	int weight;				//È¨Öµ 
+	int weight;				//æƒå€¼ 
 	char data;
 	struct LinkNode * Next;
-} LinkNode;					//´Ë´¦¶¨ÒåÁËµ¥Á´±íµÄ½Úµã£¬ÓÃÀ´±£´æ³öÏÖµÄ¶¼ÓĞÄÄĞ©×Ö·û£¬»¹ÓĞ×Ö·û³öÏÖµÄ´ÎÊı 
+} LinkNode;					//æ­¤å¤„å®šä¹‰äº†å•é“¾è¡¨çš„èŠ‚ç‚¹ï¼Œç”¨æ¥ä¿å­˜å‡ºç°çš„éƒ½æœ‰å“ªäº›å­—ç¬¦ï¼Œè¿˜æœ‰å­—ç¬¦å‡ºç°çš„æ¬¡æ•° 
 
-//´´½¨TopºÍHead£¬ËüÃÇ¶¼´øÍ·½áµã 
+//åˆ›å»ºTopå’ŒHeadï¼Œå®ƒä»¬éƒ½å¸¦å¤´ç»“ç‚¹ 
 StackNode * Top = (StackNode *) malloc (sizeof(StackNode));
 LinkNode  * Head = (LinkNode *) malloc (sizeof(LinkNode));
 
-void InsertLink(LinkNode * Head, char data)		//´Ë´¦µÄµ¥Á´±í²åÈëÓÃµÄÊÇÍ·²å·¨ 
+void InsertLink(LinkNode * Head, char data)		//æ­¤å¤„çš„å•é“¾è¡¨æ’å…¥ç”¨çš„æ˜¯å¤´æ’æ³• 
 {
 	LinkNode * temp;
 	temp = (LinkNode *) malloc (sizeof(LinkNode));
@@ -33,7 +33,7 @@ void InsertLink(LinkNode * Head, char data)		//´Ë´¦µÄµ¥Á´±í²åÈëÓÃµÄÊÇÍ·²å·¨
 	Head->Next = temp;
 } 
 
-void Push(StackNode * top, char data)			//ÈëÕ»º¯Êı, topÎªÕ»¶¥ 
+void Push(StackNode * top, char data)			//å…¥æ ˆå‡½æ•°, topä¸ºæ ˆé¡¶ 
 {
 	StackNode * temp;
 	temp = (StackNode *) malloc (sizeof(StackNode));
@@ -47,32 +47,42 @@ void Push(StackNode * top, char data)			//ÈëÕ»º¯Êı, topÎªÕ»¶¥
 	top->Next = temp;
 }
 
+void LinkPrintWeight(LinkNode * head)
+{
+	LinkNode * temp = head;
+	while(temp->Next != NULL)
+	{
+		temp = temp->Next;
+		printf("%d ", temp->weight);
+	}
+}
+
 void Pop(StackNode * top)
 {
 	while(top->Next != NULL)
 	{
+	 top = top->Next;
      printf("%c ", top->data);
-     top = top->Next;
 	} 
 }
 
-int JudegeAppear(char data)//ÅĞ¶Ï×Ö·ûÊÇ·ñÔÚÕâ¸öÁ´±íÖĞ³öÏÖ¹ı£¬Èç¹ûÃ»³öÏÖ¹ı£¬·µ»ØTRUE±£´æ
+int JudegeAppear(char data)//åˆ¤æ–­å­—ç¬¦æ˜¯å¦åœ¨è¿™ä¸ªé“¾è¡¨ä¸­å‡ºç°è¿‡ï¼Œå¦‚æœæ²¡å‡ºç°è¿‡ï¼Œè¿”å›TRUEä¿å­˜
 {
 	LinkNode * temp;
 	temp = Head->Next;
-	int j = 0;			//´Ë´¦µÄjÓÃÀ´ÅĞ¶ÏÊÇ·ñ½«ÒªÈëÕ»µÄ×Ö·ûÎªµÚÒ»´Î³öÏÖµÄ×Ö·û
+	int j = 0;			//æ­¤å¤„çš„jç”¨æ¥åˆ¤æ–­æ˜¯å¦å°†è¦å…¥æ ˆçš„å­—ç¬¦ä¸ºç¬¬ä¸€æ¬¡å‡ºç°çš„å­—ç¬¦
 	while(temp != NULL)
 	{	
 		if(data == temp->data)
 		{
 			temp->weight++;
 			j = 1;
-			return TRUE;//³öÏÖ¹ı 
+			return TRUE;//å‡ºç°è¿‡ 
 		}
 		temp =  temp->Next;
 	}
 	if(j == 0)
-		InsertLink(Head, data);	//Èç¹ûĞÂ½øÈëµÄ×Ö·ûÊÇĞÂ×Ö·û£¬¾Íµ¥Á´±íÖĞ´´½¨Ò»¸öĞÂµÄ½ÚµãÓÃÀ´±£´æ£¬Î´³öÏÖ¹ı 
+		InsertLink(Head, data);	//å¦‚æœæ–°è¿›å…¥çš„å­—ç¬¦æ˜¯æ–°å­—ç¬¦ï¼Œå°±å•é“¾è¡¨ä¸­åˆ›å»ºä¸€ä¸ªæ–°çš„èŠ‚ç‚¹ç”¨æ¥ä¿å­˜ï¼Œæœªå‡ºç°è¿‡ 
 	return FALSE;
 }
 
@@ -81,8 +91,8 @@ void Statistic(char * str)
 	int i = 0;
 	while(*(str + i) != '\0')
 	{
-		JudegeAppear(*(str + i));//ÅĞ¶ÏÊÇ·ñ×Ö·û³öÏÖ¹ı 
-		Push(Top, *(str + i));//ÈëÕ» 
+		JudegeAppear(*(str + i));//åˆ¤æ–­æ˜¯å¦å­—ç¬¦å‡ºç°è¿‡ 
+		Push(Top, *(str + i));//å…¥æ ˆ 
 		i++;
 	}
 }
