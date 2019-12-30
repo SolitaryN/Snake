@@ -85,12 +85,36 @@ void Statistic(char * str)
 	}
 }
 
+HuffmanNode * Transform(LinkNode a)//把LinkNode转为Huffman
+{
+	HuffmanNode * temp = (HuffmanNode *) malloc (sizeof(HuffmanNode));
+	temp->data = a.data;
+	temp->weight = a.weight;
+	temp->LChind = a.LChind;//都是叶子结点，没错
+	temp->RChild = a.RChild;
+	return temp;
+}
+
+LinkNode * Transform1(HuffmanNode a)//把Huffman转为LinkNode
+{
+	LinkNode * temp = (LinkNode *) malloc (sizeof(LinkNode));
+	temp->weight = a.weight;
+	temp->data = a.data;
+	temp->mark = 0;
+	temp->LChind = a.LChind;
+	temp->RChild = a.RChild;
+	return temp;
+}
+
 int * Huffman(LinkNode * head)//生成Haffman编码
 {
 	int min1 = 100000000, min2 = 100000000;
 	LinkNode MinNode1, MinNode2;
 	LinkNode * temp = head;
-	while(temp->Next != NULL)//遍历一遍链表，找出两个weight最小的结点
+	HuffmanNode * bigRoot;
+	while(Head->Next != NULL)
+	{
+		while(temp->Next != NULL)//遍历一遍链表，找出两个weight最小的结点
 	{
 		if((temp->weight < min1 || temp->weight < min2) && (temp->mark != TRUE))
 		{
@@ -115,26 +139,15 @@ int * Huffman(LinkNode * head)//生成Haffman编码
 	Root->LChind = temp1;
 	Root->RChild = temp2;
 	Root->weight = temp1->weight + temp2->weight;
-	Root->MarkWetherNull = TRUE;//标记一下不是叶子结点
+
+	bigRoot = Root;
+
 	LinkNode * NextLink = Transform1(*(Root));
 	NextLink->Next = Head->Next;
 	Head->Next = NextLink;//把新生成的结点（不是叶子结点）连接到链表中
+	}
+	return NULL;
 }
 
-HuffmanNode * Transform(LinkNode a)//把LinkNode转为Huffman
-{
-	HuffmanNode * temp = (HuffmanNode *) malloc (sizeof(HuffmanNode));
-	temp->data = a.data;
-	temp->weight = a.weight;
-//	temp->LChind = NULL;//都是叶子结点，没错
-//	temp->RChild = NULL;
-	return temp;
-}
 
-LinkNode * Transform1(HuffmanNode a)//把Huffman转为LinkNode
-{
-	LinkNode * temp = (LinkNode *) malloc (sizeof(LinkNode));
-	temp->weight = a.weight;
-	temp->mark = 0;
-}
 

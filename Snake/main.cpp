@@ -9,5 +9,6 @@ int main(void)
 	Pop(Top);
 	printf("\n");
 	LinkPrintWeight(Head);
+	Huffman(Head);
 	return 0;
 }
