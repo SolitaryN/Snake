@@ -1,0 +1,10 @@
+git remote -v
+来查看远程库
+
+git remote rm origin 
+来删除远程库
+
+git push -s origin master
+来进行第一次提交
+
+
