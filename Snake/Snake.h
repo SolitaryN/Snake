@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define TRUE 1
-#define FLASE 0
+#define FALSE 0
 
 typedef struct StackNode{
-	struct Node * Next;                                                                                                                                                                                                                                                                                                              
+	struct StackNode * Next;                                                                                                                                                                                                                                                                                                              
 	char data;
-}StackNode;					//此处定义了链栈的节点 
+} StackNode;					//此处定义了链栈的节点 
 
 typedef struct LinkNode{
 	int weight;				//权值 
@@ -15,22 +15,20 @@ typedef struct LinkNode{
 } LinkNode;					//此处定义了单链表的节点，用来保存出现的都有哪些字符，还有字符出现的次数 
 
 //创建Top和Head，它们都带头结点 
-StackNode Top;
-LinkNode Head;
-//初始化一下Top和Head
-Top->Next = NULL;
-Head->Next = NULL; 
+StackNode * Top = (StackNode *) malloc (sizeof(StackNode));
+LinkNode  * Head = (LinkNode *) malloc (sizeof(LinkNode));
 
 void InsertLink(LinkNode * Head, char data)		//此处的单链表插入用的是头插法 
 {
 	LinkNode * temp;
-	temp = (LinkNode *) malloc (LinkNode);
+	temp = (LinkNode *) malloc (sizeof(LinkNode));
 	if(temp == NULL)
 	{
 		printf("Memory space application failure");
-		exit(0);	
+		exit(0);
 	}	
 	temp->data = data;
+	temp->weight = 1;
 	temp->Next = Head->Next;
 	Head->Next = temp;
 } 
@@ -38,7 +36,7 @@ void InsertLink(LinkNode * Head, char data)		//此处的单链表插入用的是头插法
 void Push(StackNode * top, char data)			//入栈函数, top为栈顶 
 {
 	StackNode * temp;
-	temp = (StackNode *) malloc (StackNode);
+	temp = (StackNode *) malloc (sizeof(StackNode));
 	if(temp == NULL)
 	{
 		printf("Memory space application failure");
@@ -47,6 +45,15 @@ void Push(StackNode * top, char data)			//入栈函数, top为栈顶
 	temp->data = data;
 	temp->Next = top->Next;
 	top->Next = temp;
+}
+
+void Pop(StackNode * top)
+{
+	while(top->Next != NULL)
+	{
+     printf("%c ", top->data);
+     top = top->Next;
+	} 
 }
 
 int JudegeAppear(char data)//判断字符是否在这个链表中出现过，如果没出现过，返回TRUE保存
@@ -66,6 +73,7 @@ int JudegeAppear(char data)//判断字符是否在这个链表中出现过，如果没出现过，返回T
 	}
 	if(j == 0)
 		InsertLink(Head, data);	//如果新进入的字符是新字符，就单链表中创建一个新的节点用来保存，未出现过 
+	return FALSE;
 }
 
 void Statistic(char * str)
@@ -73,7 +81,8 @@ void Statistic(char * str)
 	int i = 0;
 	while(*(str + i) != '\0')
 	{
-			 
-		
+		JudegeAppear(*(str + i));//判断是否字符出现过 
+		Push(Top, *(str + i));//入栈 
+		i++;
 	}
 }
