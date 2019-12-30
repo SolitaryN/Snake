@@ -6,5 +6,8 @@ int main(void)
 	Top->Next = NULL;
 	Head->Next = NULL;
 	Statistic("this is a good day"); 
+	Pop(Top);
+	printf("\n");
+	LinkPrintWeight(Head);
 	return 0;
 }

@@ -53,7 +53,7 @@ void LinkPrintWeight(LinkNode * head)
 	while(temp->Next != NULL)
 	{
 		temp = temp->Next;
-		printf("%d ", temp->weight);
+		printf("%c %d\n", temp->data, temp->weight);
 	}
 }
 
