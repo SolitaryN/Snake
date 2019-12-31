@@ -13,4 +13,8 @@ typedef struct LinkNode
 	struct LinkNode *Next, *Pre;
 	struct LinkNode *LChild, *RChild;
 } LinkNode; //此处定义了单链表的节点，用来保存出现的都有哪些字符，还有字符出现的次数
-
+typedef struct code{
+	char data;
+	StackNode * codeTop;
+	struct code * Next;
+} Code;

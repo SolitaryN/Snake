@@ -22,7 +22,8 @@ int main(void)
 
 	Transform(Root);
 	initRoot(Root);
-	Encode(Root);
-
+	Code * store = (Code *) malloc (sizeof(Code));
+	Encode(Root, store);
+	bianli(store);
 	return 0;
 }

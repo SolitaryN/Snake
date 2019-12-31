@@ -188,27 +188,37 @@ void initRoot(LinkNode * Root)
 	Root->Pre = NULL;
 }
 
-void Encode(LinkNode *Root)//把每个字符对应的Haffman编码输出
+void Encode(LinkNode *Root, Code * store)//运用头插法
 {
-
 	if (Root != NULL)
 	{
 		if (Root->LChild == NULL && Root->RChild == NULL)
 		{
 			LinkNode * temp = Root;
+			Code * hh = (Code *) malloc(sizeof(Code));
+			store->Next = hh;
+			hh->data = Root->data;
 			while(temp->Pre != NULL)
 			{
 				if(temp->Pre->RChild == temp)
-					printf("1");
+					Push(hh->codeTop, '1');
 				else if(temp->Pre->LChild == temp)
-					printf("0");
+					Push(hh->codeTop, '0');
 				temp = temp->Pre;
 			}
-
-			printf("\t%c\n", Root->data);
 		}
-		Encode(Root->LChild);
-		Encode(Root->RChild);
+		Encode(Root->LChild, store);
+		Encode(Root->RChild, store);
+	}
+}
+
+void bianli(Code * head)
+{
+	Code * temp = head;
+	while(temp != NULL)
+	{
+		temp = temp->Next;
+		Pop(temp->codeTop);
 	}
 }
 
