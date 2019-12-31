@@ -1,2 +1,2 @@
-It's a respority of Snake
+It's a repository of HuffmanTree's create and Encode.
 
