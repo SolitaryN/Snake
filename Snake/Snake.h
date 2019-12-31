@@ -100,9 +100,18 @@ void Statistic(char * str)
 // 		temp->markWetherRoot = FALSE;
 // 	}
 // }
-HuffmanNode * transform(LinkNode * head)
-{
+// HuffmanNode * transform(LinkNode * head)
+// {
 	
+// }
+void loopLink(LinkNode * head)
+{
+	LinkNode * temp = head;
+	while(temp != NULL)
+	{
+		temp = temp->Next;
+		printf("%d ", temp->weight);
+	}
 }
 
 LinkNode * Huffman(LinkNode * head)//生成Huffman一颗树，并且返回Root
@@ -111,6 +120,7 @@ LinkNode * Huffman(LinkNode * head)//生成Huffman一颗树，并且返回Root
 	headCopy = head;
 	while(head->Next->Next != NULL)//确保单链表中至少有两个元素
 	{
+		loopLink(head);
 		LinkNode * temp = head;//temp用来遍历，会逐个向下移动
 		while(temp->Next != NULL)//遍历单链表
 		{

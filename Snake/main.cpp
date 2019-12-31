@@ -5,7 +5,8 @@ int main(void)
 	//初始化一下Top和Head
 	Top->Next = NULL;
 	Head->Next = NULL;
-	Statistic("aaaowpanbbdflcb"); 
+	char * temp = "aaaowpanbbdflcb";
+	Statistic(temp); 
 	Pop(Top);
 	printf("\n");
 	LinkPrintWeight(Head);
