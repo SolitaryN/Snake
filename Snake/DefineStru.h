@@ -25,27 +25,3 @@ typedef struct MinNode
 {
 	LinkNode *Min1, *Min2;
 } Min;
-
-Min *getMinNode(LinkNode *head)
-{
-	LinkNode * temp = head;
-	Min * retu = (Min *) malloc (sizeof(Min));
-	while (temp->Next != NULL) //遍历单链表
-	{
-		temp = temp->Next;
-		int min1 = 100000000, min2 = 100000000; //用来找权值最小的两个结点
-		if (temp->weight < min1 || temp->weight < min2)
-		{
-			if (min1 > min2)
-			{
-				min1 = temp->weight;
-				MinNode1 = temp;
-			}
-			else
-			{
-				min2 = temp->weight;
-				MinNode2 = temp;
-			}
-		}
-	}
-}
