@@ -2,161 +2,170 @@
 #include <stdlib.h>
 #include "DefineStru.h"
 
-void InsertLink(LinkNode * head, char data)		//此处的单链表插入用的是头插法 
+void InsertLink(LinkNode *head, char data) //此处的单链表插入用的是头插法
 {
-	LinkNode * temp;
-	temp = (LinkNode *) malloc (sizeof(LinkNode));
-	if(temp == NULL)
+	LinkNode *temp;
+	temp = (LinkNode *)malloc(sizeof(LinkNode));
+	if (temp == NULL)
 	{
 		printf("Memory space application failure");
 		exit(0);
-	}	
-	temp->LChild = NULL; temp->RChild = NULL;
+	}
+	temp->LChild = NULL;
+	temp->RChild = NULL;
 	temp->data = data;
 	temp->weight = 1;
 	temp->Next = head->Next;
-	if(head->Next != NULL)
+	if (head->Next != NULL)
 	{
 		head->Next->Pre = temp;
 	}
 	temp->Pre = head;
 	head->Next = temp;
-} 
+}
 
-void Push(StackNode * top, char data)			//入栈函数, top为栈顶 
+void Push(StackNode *top, char data) //入栈函数, top为栈顶
 {
-	StackNode * temp;
-	temp = (StackNode *) malloc (sizeof(StackNode));
-	if(temp == NULL)
+	StackNode *temp;
+	temp = (StackNode *)malloc(sizeof(StackNode));
+	if (temp == NULL)
 	{
 		printf("Memory space application failure");
-		exit(0);	
+		exit(0);
 	}
 	temp->data = data;
 	temp->Next = top->Next;
 	top->Next = temp;
 }
 
-void LinkPrintWeight(LinkNode * head)
-{
-	LinkNode * temp = head;
-	while(temp->Next != NULL)
+void LinkPrintWeight(LinkNode *head)
+{//这个函数用来遍历单链表，并输出data和weight
+	LinkNode *temp = head;
+	while (temp->Next != NULL)
 	{
 		temp = temp->Next;
 		printf("%c %d\n", temp->data, temp->weight);
 	}
 }
 
-void Pop(StackNode * top)
+void Pop(StackNode *top)//出栈函数
 {
-	while(top->Next != NULL)
+	while (top->Next != NULL)
 	{
-	 top = top->Next;
-     printf("%c ", top->data);
-	} 
+		top = top->Next;
+		printf("%c ", top->data);
+	}
 }
 
-int JudegeAppear(LinkNode * head ,char data)//判断字符是否在这个链表中出现过，如果没出现过，返回TRUE保存
+int JudegeAppear(LinkNode *head, char data) //判断字符是否在这个链表中出现过，如果没出现过，返回TRUE保存
 {
-	LinkNode * temp;
+	LinkNode *temp;
 	temp = head->Next;
-	int j = 0;			//此处的j用来判断是否将要入栈的字符为第一次出现的字符
-	while(temp != NULL)
-	{	
-		if(data == temp->data)
+	int j = 0; //此处的j用来判断是否将要入栈的字符为第一次出现的字符
+	while (temp != NULL)
+	{
+		if (data == temp->data)
 		{
 			temp->weight++;
 			j = 1;
-			return TRUE;//出现过 
+			return TRUE; //出现过
 		}
-		temp =  temp->Next;
+		temp = temp->Next;
 	}
-	if(j == 0)
-		InsertLink(head, data);	//如果新进入的字符是新字符，就单链表中创建一个新的节点用来保存，未出现过 
+	if (j == 0)
+		InsertLink(head, data); //如果新进入的字符是新字符，就单链表中创建一个新的节点用来保存，未出现过
 	return FALSE;
 }
 
-void Statistic(StackNode * Top, LinkNode * head, char * str)
-{
+void Statistic(StackNode *Top, LinkNode *head, char *str)
+{//此函数用来统计字符串中的字符的权值
 	int i = 0;
-	while(*(str + i) != '\0')
+	while (*(str + i) != '\0')
 	{
-		JudegeAppear(head, *(str + i));//判断是否字符出现过 
-		Push(Top, *(str + i));//入栈 
+		JudegeAppear(head, *(str + i)); //判断是否字符出现过
+		Push(Top, *(str + i));			//入栈
 		i++;
 	}
 }
 
-void loopLink(LinkNode * head)
-{
-	LinkNode * temp = head;
-	while(temp != NULL)
+void loopLink(LinkNode *head)
+{//此函数用来进行对单链表进行遍历并输出weight
+	LinkNode *temp = head;
+	while (temp != NULL)
 	{
 		temp = temp->Next;
 		printf("%d ", temp->weight);
 	}
 }
 
-LinkNode * Huffman(LinkNode * head)//生成Huffman一颗树，并且返回Root
-{
-	LinkNode * MinNode1, * MinNode2, * headCopy;//保存两个最小权值结点地址
-	headCopy = head;
-	while(head->Next->Next != NULL)//确保单链表中至少有两个元素
+LinkNode * FindMin (LinkNode * head)//此函数可行,已验证
+{//此函数用来进行在链表中找到weight最小的节点的地址，并返回该地址
+	LinkNode * temp = head;
+	LinkNode * min;
+	int bi = 100000000; //用来找权值最小的结点
+	while (temp->Next != NULL) //遍历单链表
 	{
-		loopLink(head);
-		LinkNode * temp = head;//temp用来遍历，会逐个向下移动
-		while(temp->Next != NULL)//遍历单链表
+		temp = temp->Next;
+		if (temp->weight < bi)
 		{
-			loopLink(head);
-			temp = temp->Next;
-			int min1 = 100000000, min2 = 100000000;//用来找权值最小的两个结点
-			if(temp->weight < min1 || temp->weight < min2)
-			{
-				if(min1 > min2)
-				{
-				 min1 = temp->weight;
-				 MinNode1 = temp;
-				}
-				else
-				{
-				 min2 = temp->weight;
-				 MinNode2 = temp;
-				}
-			}
+			bi = temp->weight;
+			min = temp;
 		}
-		//找到两个weight最小的结点MinNode1和MinNode2
-		LinkNode * connect = (LinkNode *) malloc (sizeof(LinkNode));
-		//生成一个连接两个最小结点的结点
-		connect->LChild = MinNode1;
-		connect->RChild = MinNode2;
-		connect->weight = MinNode1->weight + MinNode2->weight;
-
-		//把单链表中两个weight最小的结点删除
-		MinNode1->Pre->Next = MinNode1->Next;
-		MinNode2->Pre->Next = MinNode2->Next;
-		MinNode1->Next = NULL;
-		MinNode1->Pre = NULL;
-		MinNode2->Next = NULL;
-		MinNode2->Pre = NULL;
-		//单链表连接上结点connect
-		connect->Next = headCopy->Next;
-		connect->Pre = headCopy;
-		headCopy->Next = connect;
 	}
-	return headCopy->Next;
+	return min;
 }
 
-void leafNodePrint(LinkNode * Root)
+void DeleteNode(LinkNode * s)//删除单链表中的数据，已验证此函数可行
 {
-	if(Root != NULL)
+	s->Pre->Next = s->Next;
+	if(s->Next != NULL)
 	{
-		if(Root->LChild == NULL && Root->RChild == NULL)
+		s->Next->Pre = s->Pre;
+	}
+}
+
+LinkNode * CreatNode(LinkNode * a, LinkNode * b)//已检验，函数可行
+{//此函数用来进行对两个节点进行合并成一颗树
+	LinkNode * newNode = (LinkNode *) malloc (sizeof(LinkNode));
+	newNode->weight = a->weight + b->weight;
+	newNode->LChild = a;
+	newNode->RChild = b;
+	return newNode;
+}
+
+void ConnectLink(LinkNode * head, LinkNode * new)
+{//此函数用来连接生成的树的根与链表连接
+	new->Next = head->Next;
+	if(head->Next != NULL)
+	{
+		head->Next->Pre = new;
+	}
+	new->Pre = head;
+	head->Next = new;
+}
+
+LinkNode * Huffman(LinkNode * head) //生成Huffman一颗树，并且返回Root
+{	//已验证，此函数有效
+	//保持head指针不发生变动
+	while(head->Next->Next != NULL)//单链表最后肯定会剩下一个节点，Root
+	{
+		LinkNode * a = FindMin(head);//找weight最小的节点
+		DeleteNode(a);//找到之后就在单链表中删除这个节点
+		LinkNode * b = FindMin(head);
+		DeleteNode(b);
+		LinkNode * c = CreatNode(a, b);//用找到的两个weight最小的节点生成一颗树
+		ConnectLink(head, c);//把新生成的树的根节点连接到单链表中
+	}
+	return head->Next;
+}
+
+void leafNodePrint(LinkNode *Root)//此函数用来做实验，没事么用，可删
+{//此函数用来遍历叶子节点，并输出它们的data域
+	if (Root != NULL)
+	{
+		if (Root->LChild == NULL && Root->RChild == NULL)
 			printf("%c ", Root->data);
 		leafNodePrint(Root->LChild);
 		leafNodePrint(Root->RChild);
 	}
 }
-
-
-
-

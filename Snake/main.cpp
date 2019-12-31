@@ -8,12 +8,15 @@ int main(void)
 	LinkNode  * Head = (LinkNode *) malloc (sizeof(LinkNode));
 	Top->Next = NULL;
 	Head->Next = NULL;
-	char * temp = "aaaowpanbbdflcb";
-	Statistic(Top, Head, temp); 
+	char * temp = "wwwwangazzz";
+	Statistic(Top, Head, temp);
+
 	Pop(Top);
 	printf("\n");
+
 	LinkPrintWeight(Head);
-	LinkNode * wtf = Huffman(Head);
-	leafNodePrint(wtf);
+	
+	LinkNode * Root = Huffman(Head);
+	leafNodePrint(Root);
 	return 0;
 }
