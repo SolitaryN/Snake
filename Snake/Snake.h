@@ -15,9 +15,15 @@ void InsertLink(LinkNode * head, char data)		//此处的单链表插入用的是
 		printf("Memory space application failure");
 		exit(0);
 	}	
+	temp->LChild = NULL; temp->RChild = NULL;
 	temp->data = data;
 	temp->weight = 1;
 	temp->Next = head->Next;
+	if(head->Next != NULL)
+	{
+		head->Next->Pre = temp;
+	}
+	temp->Pre = head;
 	head->Next = temp;
 } 
 
@@ -94,11 +100,56 @@ void Statistic(char * str)
 // 		temp->markWetherRoot = FALSE;
 // 	}
 // }
-
-
-LinkNode * Huffman(LinkNode * head)//生成一颗树，并且返回Root
+HuffmanNode * transform(LinkNode * head)
 {
+	
+}
 
+LinkNode * Huffman(LinkNode * head)//生成Huffman一颗树，并且返回Root
+{
+	LinkNode * MinNode1, * MinNode2, * headCopy;//保存两个最小权值结点地址
+	headCopy = head;
+	while(head->Next->Next != NULL)//确保单链表中至少有两个元素
+	{
+		LinkNode * temp = head;//temp用来遍历，会逐个向下移动
+		while(temp->Next != NULL)//遍历单链表
+		{
+			temp = temp->Next;
+			int min1 = 100000000, min2 = 100000000;//用来找权值最小的两个结点
+			if(temp->weight < min1 || temp->weight < min2)
+			{
+				if(min1 > min2)
+				{
+				 min1 = temp->weight;
+				 MinNode1 = temp;
+				}
+				else
+				{
+				 min2 = temp->weight;
+				 MinNode2 = temp;
+				}
+			}
+		}
+		//找到两个weight最小的结点MinNode1和MinNode2
+		LinkNode * connect = (LinkNode *) malloc (sizeof(LinkNode));
+		//生成一个连接两个最小结点的结点
+		connect->LChild = MinNode1;
+		connect->RChild = MinNode2;
+		connect->weight = MinNode1->weight + MinNode2->weight;
+
+		//把单链表中两个weight最小的结点删除
+		MinNode1->Pre->Next = MinNode1->Next;
+		MinNode2->Pre->Next = MinNode2->Next;
+		MinNode1->Next = NULL;
+		MinNode1->Pre = NULL;
+		MinNode2->Next = NULL;
+		MinNode2->Pre = NULL;
+		//单链表连接上结点connect
+		connect->Next = headCopy->Next;
+		connect->Pre = headCopy;
+		headCopy->Next = connect;
+	}
+	return headCopy->Next;
 }
 
 // LinkNode * Huffman(LinkNode * head)//生成一棵树，返回它的Root
@@ -151,16 +202,16 @@ LinkNode * Huffman(LinkNode * head)//生成一颗树，并且返回Root
 // 	return bigRoot;
 // }
 
-// void leafNodePrint(LinkNode * Root)
-// {
-// 	if(Root != NULL)
-// 	{
-// 		if(Root->LChind == NULL && Root->RChild == NULL)
-// 			printf("%c ", Root->data);
-// 		leafNodePrint(Root->LChind);
-// 		leafNodePrint(Root->RChild);
-// 	}
-// }
+void leafNodePrint(LinkNode * Root)
+{
+	if(Root != NULL)
+	{
+		if(Root->LChild == NULL && Root->RChild == NULL)
+			printf("%c ", Root->data);
+		leafNodePrint(Root->LChild);
+		leafNodePrint(Root->RChild);
+	}
+}
 
 
 
