@@ -85,69 +85,75 @@ void Statistic(char * str)
 	}
 }
 
-HuffmanNode * Transform(LinkNode a)//把LinkNode转为Huffman
+LinkNode * Huffman(LinkNode * head)//生成一棵树，返回它的Root
 {
-	HuffmanNode * temp = (HuffmanNode *) malloc (sizeof(HuffmanNode));
-	temp->data = a.data;
-	temp->weight = a.weight;
-	temp->LChind = a.LChind;//都是叶子结点，没错
-	temp->RChild = a.RChild;
-	return temp;
-}
-
-LinkNode * Transform1(HuffmanNode a)//把Huffman转为LinkNode
-{
-	LinkNode * temp = (LinkNode *) malloc (sizeof(LinkNode));
-	temp->weight = a.weight;
-	temp->data = a.data;
-	temp->mark = 0;
-	temp->LChind = a.LChind;
-	temp->RChild = a.RChild;
-	return temp;
-}
-
-int * Huffman(LinkNode * head)//生成Haffman编码
-{
-	int min1 = 100000000, min2 = 100000000;
-	LinkNode MinNode1, MinNode2;
+	LinkNode * MinNode1, * MinNode2;
 	LinkNode * temp = head;
-	HuffmanNode * bigRoot;
-	while(Head->Next != NULL)
+	LinkNode * bigRoot;
+	while(head->Next != NULL)
 	{
+		int min1 = 100000000, min2 = 100000000;//用来找权值最小的两个LinkNode
 		while(temp->Next != NULL)//遍历一遍链表，找出两个weight最小的结点
-	{
+		{
+			temp = temp->Next;
 		if((temp->weight < min1 || temp->weight < min2) && (temp->mark != TRUE))
 		{
 			if(min1 > min2)
 			{
 				min1 = temp->weight;
-				MinNode1 = *(temp);
+				MinNode1 = temp;
 			}
 			else
 			{
 				min2 = temp->weight;
-				MinNode2 = *(temp);
+				MinNode2 = temp;
 			}
 		}
-		MinNode1.mark = TRUE;
-		MinNode2.mark = TRUE;//表示已经取出了链表中的值
-		temp = temp->Next;
+		MinNode1->mark = TRUE;
+		MinNode2->mark = TRUE;//表示已经取出了链表中的值
+		}
+	if(MinNode1->markWetherRoot == FALSE)
+	{
+		MinNode1->LChind = NULL;
+		MinNode1->RChild = NULL;
 	}
-	HuffmanNode * temp1 = Transform(MinNode1);
-	HuffmanNode * temp2 = Transform(MinNode2);
-	HuffmanNode * Root = (HuffmanNode *) malloc (sizeof(HuffmanNode));
-	Root->LChind = temp1;
-	Root->RChild = temp2;
-	Root->weight = temp1->weight + temp2->weight;
-
-	bigRoot = Root;
-
-	LinkNode * NextLink = Transform1(*(Root));
-	NextLink->Next = Head->Next;
-	Head->Next = NextLink;//把新生成的结点（不是叶子结点）连接到链表中
+	if(MinNode2->markWetherRoot = FALSE)
+	{
+		MinNode2->LChind = NULL;
+		MinNode2->RChild = NULL;
 	}
-	return NULL;
+
+	LinkNode * Root = (LinkNode *) malloc (sizeof(LinkNode));
+	Root->LChind = MinNode1;
+	Root->RChild = MinNode2;
+	Root->weight = MinNode1->weight + MinNode2->weight;
+	bigRoot = Root;//保存根
+
+	Root->Next = Head->Next;
+	Head->Next = Root;//把新生成的结点（不是叶子结点）连接到链表中
+	}
+	return bigRoot;
 }
 
+void leafNodePrint(LinkNode * Root)
+{
+	if(Root != NULL)
+	{
+		if(Root->LChind == NULL && Root->RChild == NULL)
+			printf("%c ", Root->data);
+		leafNodePrint(Root->LChind);
+		leafNodePrint(Root->RChild);
+	}
+}
+
+void initWithRoot(LinkNode * head)
+{
+	LinkNode * temp = head;
+	while(temp->Next != NULL)
+	{
+		temp = temp->Next;
+		temp->markWetherRoot = FALSE;
+	}
+}
 
 
