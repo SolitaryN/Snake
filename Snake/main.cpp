@@ -9,7 +9,7 @@ int main(void)
 	Pop(Top);
 	printf("\n");
 	LinkPrintWeight(Head);
-	initWithRoot(Head);
-	leafNodePrint(Huffman(Head));
+	// initWithRoot(Head);
+	// leafNodePrint(Huffman(Head));
 	return 0;
 }
