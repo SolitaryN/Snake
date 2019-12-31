@@ -196,7 +196,10 @@ void Encode(LinkNode *Root, Code * store)//运用头插法
 		{
 			LinkNode * temp = Root;
 			Code * hh = (Code *) malloc(sizeof(Code));
+			hh->Next = store->Next;
 			store->Next = hh;
+			
+			hh->codeTop = (StackNode *) malloc (sizeof(StackNode));
 			hh->data = Root->data;
 			while(temp->Pre != NULL)
 			{
@@ -213,12 +216,13 @@ void Encode(LinkNode *Root, Code * store)//运用头插法
 }
 
 void bianli(Code * head)
-{
+{//把储存在栈中的1和0的编码输出出来
 	Code * temp = head;
-	while(temp != NULL)
+	while(temp->Next != NULL)
 	{
 		temp = temp->Next;
 		Pop(temp->codeTop);
+		printf("\t\t\t%c\n", temp->data);
 	}
 }
 
