@@ -133,15 +133,15 @@ LinkNode * CreatNode(LinkNode * a, LinkNode * b)//已检验，函数可行
 	return newNode;
 }
 
-void ConnectLink(LinkNode * head, LinkNode * new)
+void ConnectLink(LinkNode * head, LinkNode * newNode)
 {//此函数用来连接生成的树的根与链表连接
-	new->Next = head->Next;
+	newNode->Next = head->Next;
 	if(head->Next != NULL)
 	{
-		head->Next->Pre = new;
+		head->Next->Pre = newNode;
 	}
-	new->Pre = head;
-	head->Next = new;
+	newNode->Pre = head;
+	head->Next = newNode;
 }
 
 LinkNode * Huffman(LinkNode * head) //生成Huffman一颗树，并且返回Root
