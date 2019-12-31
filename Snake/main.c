@@ -8,7 +8,7 @@ int main(void)
 	LinkNode  * Head = (LinkNode *) malloc (sizeof(LinkNode));
 	Top->Next = NULL;
 	Head->Next = NULL;
-	char * temp = "wwwwangazzz";
+	char * temp = "aaasssssrrrrrrrrrrrpppppppppppppppppppppppiiiiiiiiiiiiiiiiiiiiiiiiiiiiikkkkkkkkkkkkkkmmmmmmmyyyyyyyy";
 	Statistic(Top, Head, temp);
 
 	Pop(Top);
@@ -18,5 +18,11 @@ int main(void)
 	
 	LinkNode * Root = Huffman(Head);
 	leafNodePrint(Root);
+	printf("\n");
+
+	Transform(Root);
+	initRoot(Root);
+	Encode(Root);
+
 	return 0;
 }

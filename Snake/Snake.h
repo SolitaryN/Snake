@@ -26,7 +26,7 @@ void InsertLink(LinkNode *head, char data) //此处的单链表插入用的是�
 
 void Push(StackNode *top, char data) //入栈函数, top为栈顶
 {
-	StackNode *temp;
+	StackNode * temp;
 	temp = (StackNode *)malloc(sizeof(StackNode));
 	if (temp == NULL)
 	{
@@ -48,7 +48,7 @@ void LinkPrintWeight(LinkNode *head)
 	}
 }
 
-void Pop(StackNode *top)//出栈函数
+void Pop(StackNode *top)//出栈函数,没什么用，可以删除
 {
 	while (top->Next != NULL)
 	{
@@ -89,7 +89,7 @@ void Statistic(StackNode *Top, LinkNode *head, char *str)
 }
 
 void loopLink(LinkNode *head)
-{//此函数用来进行对单链表进行遍历并输出weight
+{//此函数用来进行对单链表进行遍历并输出weight,没什么用，可删除
 	LinkNode *temp = head;
 	while (temp != NULL)
 	{
@@ -169,3 +169,47 @@ void leafNodePrint(LinkNode *Root)//此函数用来做实验，没事么用，�
 		leafNodePrint(Root->RChild);
 	}
 }
+
+void Transform(LinkNode * Root)
+{//把结点中的Pre指针指向父节点
+	if(Root != NULL)
+	{
+		if(Root->LChild != NULL)
+			Root->LChild->Pre = Root;
+		if(Root->RChild != NULL)
+			Root->RChild->Pre = Root;
+		Transform(Root->LChild);
+		Transform(Root->RChild);
+	}
+}
+
+void initRoot(LinkNode * Root)
+{//把Root的Pre指针化为空
+	Root->Pre = NULL;
+}
+
+void Encode(LinkNode *Root)//把每个字符对应的Haffman编码输出
+{
+
+	if (Root != NULL)
+	{
+		if (Root->LChild == NULL && Root->RChild == NULL)
+		{
+			LinkNode * temp = Root;
+			while(temp->Pre != NULL)
+			{
+				if(temp->Pre->RChild == temp)
+					printf("1");
+				else if(temp->Pre->LChild == temp)
+					printf("0");
+				temp = temp->Pre;
+			}
+
+			printf("\t%c\n", Root->data);
+		}
+		Encode(Root->LChild);
+		Encode(Root->RChild);
+	}
+}
+
+
