@@ -41,10 +41,13 @@ void LinkPrintWeight(LinkNode *head)
 
 void Pop(StackNode *top)//出栈函数
 {
+	StackNode * temp;
 	while (top->Next != NULL)
 	{
-		top = top->Next;
-		printf("%c ", top->data);
+		temp = top->Next;
+		printf("%c ", temp->data);
+		top->Next = temp->Next;
+		free(temp);
 	}
 }
 
@@ -219,15 +222,46 @@ void Encode(LinkNode *Root, Code * store)//运用头插法
 	}
 }
 
+void EncodeChar(StackNode * head)
+{//此函数用来把字符的哈夫曼编码输出出来
+	StackNode * temp = head;
+	while(temp->Next != NULL)
+	{
+		temp = temp->Next;
+		printf("%c", temp->data);
+	}
+}
+
 void bianli(Code * head)
-{//该函数用来把字符和存放字符哈夫曼编码的链表遍历一下
+{//该函数用来把每个字符和存放字符哈夫曼编码的链表遍历一下
 	Code * temp = head;
 	while(temp->Next != NULL)
 	{
 		temp = temp->Next;
 		printf("%c\t", temp->data);
-		Pop(temp->codeTop);
+		EncodeChar(temp->codeTop);
 		printf("\n");
+	}
+}
+
+void seekEqualInLink(char data, Code * head)
+{
+	Code * temp = head->Next;
+	while(temp != NULL)
+	{
+		if(temp->data == data)
+			EncodeChar(temp->codeTop);
+		temp = temp->Next;
+	}
+}
+
+void EncodeText(char * text, Code * head)
+{//此函数用来把刚刚输入的Text内容转化成哈夫曼编码
+	int i = 0;
+	while(*(text + i) != '\0')
+	{
+		seekEqualInLink(*(text + i), head);
+		i++;
 	}
 }
 

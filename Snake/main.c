@@ -20,7 +20,7 @@ int main(void)
 	LinkNode * Root = Huffman(Head);//哈夫曼树的根节点
 	leafNodePrint(Root);
 
-	printf("\n输出每个字符的Huffman编码：\n");
+	printf("\n每个字符的Huffman编码为：\n");
 	//注意：它的编码存储在栈中，出栈后自然就倒置了过来
 	Transform(Root);
 	initRoot(Root);
@@ -28,5 +28,9 @@ int main(void)
 	store->Next = NULL;//初始化一下，避免可能出现死循环问题
 	Encode(Root, store);
 	bianli(store);
+
+	//把文本转化并输出哈夫曼码
+	printf("文本的Huffman码为:\n");
+	EncodeText(temp, store);
 	return 0;
 }
