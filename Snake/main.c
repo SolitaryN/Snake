@@ -1,6 +1,6 @@
 #include "Snake.h"
 #include <string.h>
-#define STLEN 200
+#define STLEN 1000
 int main(void)
 {
 	//初始化一下Top和Head
@@ -9,9 +9,10 @@ int main(void)
 	LinkNode  * Head = (LinkNode *) malloc (sizeof(LinkNode));
 	Top->Next = NULL;
 	Head->Next = NULL;
+	printf("input the text:");
 	char temp[STLEN];
 	fgets(temp, STLEN, stdin);
-	temp[strlen(temp) - 1] = '\0';//把换行符换位'\0'
+	temp[strlen(temp) - 1] = '\0';//把换行符换成'\0'
 	Statistic(Top, Head, temp);
 	LinkPrintWeight(Head);
 	
