@@ -2,8 +2,54 @@
 #include <stdlib.h>
 #include "DefineStru.h"
 
-void InsertLink(LinkNode *head, char data) //æ­¤å¤„çš„å•é“¾è¡¨æ’å…¥ç”¨çš„æ˜¯å¤´æ’æ³•
+void Push(StackNode *top, char data) //ÈëÕ»º¯Êý, topÎªÕ»¶¥
 {
+	StackNode * temp;
+	temp = (StackNode *)malloc(sizeof(StackNode));
+	if (temp == NULL)
+	{
+		printf("Memory space application failure");
+		exit(0);
+	}
+	temp->data = data;
+	temp->Next = top->Next;
+	top->Next = temp;
+}
+
+void LinkPrintWeight(LinkNode *head)
+{//Õâ¸öº¯ÊýÓÃÀ´±éÀúµ¥Á´±í£¬²¢Êä³ödataºÍweight
+	LinkNode *temp = head;
+	int i = 0;
+	printf("Ã¿¸ö×Ö·û¶ÔÓ¦µÄÈ¨Öµ±í£º");
+	printf("\n----------------------------------------------------\n");
+	while (temp->Next != NULL)
+	{
+		temp = temp->Next;
+		if(i < 6)
+		{
+			i++;
+			printf("%c %d\t", temp->data, temp->weight);
+		}
+		else if(i == 6)
+		{
+			i = 0;
+			printf("%c %d\n", temp->data, temp->weight);
+		}
+	}
+	printf("\n----------------------------------------------------\n");
+}
+
+void Pop(StackNode *top)//³öÕ»º¯Êý
+{
+	while (top->Next != NULL)
+	{
+		top = top->Next;
+		printf("%c ", top->data);
+	}
+}
+
+void InsertLink(LinkNode *head, char data) //´Ë´¦µÄµ¥Á´±í²åÈëÓÃµÄÊÇÍ·²å·¨
+{//´Ëº¯ÊýÓÃÀ´ÔÚÁ´±íÖÐÉú³É½áµã²¢±£´æ·¢ÏÖÐÂµÄ×Ö·û
 	LinkNode *temp;
 	temp = (LinkNode *)malloc(sizeof(LinkNode));
 	if (temp == NULL)
@@ -24,86 +70,41 @@ void InsertLink(LinkNode *head, char data) //æ­¤å¤„çš„å•é“¾è¡¨æ’å…¥ç”¨çš„æ˜¯å¤
 	head->Next = temp;
 }
 
-void Push(StackNode *top, char data) //å…¥æ ˆå‡½æ•°, topä¸ºæ ˆé¡¶
-{
-	StackNode * temp;
-	temp = (StackNode *)malloc(sizeof(StackNode));
-	if (temp == NULL)
-	{
-		printf("Memory space application failure");
-		exit(0);
-	}
-	temp->data = data;
-	temp->Next = top->Next;
-	top->Next = temp;
-}
-
-void LinkPrintWeight(LinkNode *head)
-{//è¿™ä¸ªå‡½æ•°ç”¨æ¥éåŽ†å•é“¾è¡¨ï¼Œå¹¶è¾“å‡ºdataå’Œweight
-	LinkNode *temp = head;
-	while (temp->Next != NULL)
-	{
-		temp = temp->Next;
-		printf("%c %d\n", temp->data, temp->weight);
-	}
-}
-
-void Pop(StackNode *top)//å‡ºæ ˆå‡½æ•°,æ²¡ä»€ä¹ˆç”¨ï¼Œå¯ä»¥åˆ é™¤
-{
-	while (top->Next != NULL)
-	{
-		top = top->Next;
-		printf("%c ", top->data);
-	}
-}
-
-int JudegeAppear(LinkNode *head, char data) //åˆ¤æ–­å­—ç¬¦æ˜¯å¦åœ¨è¿™ä¸ªé“¾è¡¨ä¸­å‡ºçŽ°è¿‡ï¼Œå¦‚æžœæ²¡å‡ºçŽ°è¿‡ï¼Œè¿”å›žTRUEä¿å­˜
+void JudegeAppear(LinkNode *head, char data) //ÅÐ¶Ï×Ö·ûÊÇ·ñÔÚÕâ¸öÁ´±íÖÐ³öÏÖ¹ý£¬Èç¹ûÃ»³öÏÖ¹ý£¬·µ»ØTRUE±£´æ
 {
 	LinkNode *temp;
 	temp = head->Next;
-	int j = 0; //æ­¤å¤„çš„jç”¨æ¥åˆ¤æ–­æ˜¯å¦å°†è¦å…¥æ ˆçš„å­—ç¬¦ä¸ºç¬¬ä¸€æ¬¡å‡ºçŽ°çš„å­—ç¬¦
 	while (temp != NULL)
 	{
-		if (data == temp->data)
+		if (data == temp->data)//³öÏÖ¹ýÊ±
 		{
 			temp->weight++;
-			j = 1;
-			return TRUE; //å‡ºçŽ°è¿‡
+			return ; 
 		}
 		temp = temp->Next;
 	}
-	if (j == 0)
-		InsertLink(head, data); //å¦‚æžœæ–°è¿›å…¥çš„å­—ç¬¦æ˜¯æ–°å­—ç¬¦ï¼Œå°±å•é“¾è¡¨ä¸­åˆ›å»ºä¸€ä¸ªæ–°çš„èŠ‚ç‚¹ç”¨æ¥ä¿å­˜ï¼Œæœªå‡ºçŽ°è¿‡
-	return FALSE;
+	//º¯ÊýÖ´ÐÐµ½Õâ£¬ËµÃ÷Î´·¢ÏÖÕâ¸ö×Ö·û³öÏÖ¹ý
+	InsertLink(head, data); //Èç¹ûÐÂ½øÈëµÄ×Ö·ûÊÇÐÂ×Ö·û£¬¾Íµ¥Á´±íÖÐ´´½¨Ò»¸öÐÂµÄ½ÚµãÓÃÀ´±£´æ£¬Î´³öÏÖ¹ý
+	return ;
 }
 
 void Statistic(StackNode *Top, LinkNode *head, char *str)
-{//æ­¤å‡½æ•°ç”¨æ¥ç»Ÿè®¡å­—ç¬¦ä¸²ä¸­çš„å­—ç¬¦çš„æƒå€¼
+{//´Ëº¯ÊýÓÃÀ´Í³¼Æ×Ö·û´®ÖÐµÄ×Ö·ûµÄÈ¨Öµ
 	int i = 0;
 	while (*(str + i) != '\0')
 	{
-		JudegeAppear(head, *(str + i)); //åˆ¤æ–­æ˜¯å¦å­—ç¬¦å‡ºçŽ°è¿‡
-		Push(Top, *(str + i));			//å…¥æ ˆ
+		JudegeAppear(head, *(str + i)); //ÅÐ¶ÏÊÇ·ñ×Ö·û³öÏÖ¹ý
+		Push(Top, *(str + i));			//ÈëÕ»
 		i++;
 	}
 }
 
-void loopLink(LinkNode *head)
-{//æ­¤å‡½æ•°ç”¨æ¥è¿›è¡Œå¯¹å•é“¾è¡¨è¿›è¡ŒéåŽ†å¹¶è¾“å‡ºweight,æ²¡ä»€ä¹ˆç”¨ï¼Œå¯åˆ é™¤
-	LinkNode *temp = head;
-	while (temp != NULL)
-	{
-		temp = temp->Next;
-		printf("%d ", temp->weight);
-	}
-}
-
-LinkNode * FindMin (LinkNode * head)//æ­¤å‡½æ•°å¯è¡Œ,å·²éªŒè¯
-{//æ­¤å‡½æ•°ç”¨æ¥è¿›è¡Œåœ¨é“¾è¡¨ä¸­æ‰¾åˆ°weightæœ€å°çš„èŠ‚ç‚¹çš„åœ°å€ï¼Œå¹¶è¿”å›žè¯¥åœ°å€
+LinkNode * FindMin (LinkNode * head)//´Ëº¯Êý¿ÉÐÐ,ÒÑÑéÖ¤
+{//´Ëº¯ÊýÓÃÀ´½øÐÐÔÚÁ´±íÖÐÕÒµ½weight×îÐ¡µÄ½ÚµãµÄµØÖ·£¬²¢·µ»Ø¸ÃµØÖ·
 	LinkNode * temp = head;
 	LinkNode * min;
-	int bi = 100000000; //ç”¨æ¥æ‰¾æƒå€¼æœ€å°çš„ç»“ç‚¹
-	while (temp->Next != NULL) //éåŽ†å•é“¾è¡¨
+	int bi = 100000000; //ÓÃÀ´ÕÒÈ¨Öµ×îÐ¡µÄ½áµã
+	while (temp->Next != NULL) //±éÀúµ¥Á´±í
 	{
 		temp = temp->Next;
 		if (temp->weight < bi)
@@ -115,7 +116,7 @@ LinkNode * FindMin (LinkNode * head)//æ­¤å‡½æ•°å¯è¡Œ,å·²éªŒè¯
 	return min;
 }
 
-void DeleteNode(LinkNode * s)//åˆ é™¤å•é“¾è¡¨ä¸­çš„æ•°æ®ï¼Œå·²éªŒè¯æ­¤å‡½æ•°å¯è¡Œ
+void DeleteNode(LinkNode * s)//É¾³ýµ¥Á´±íÖÐµÄÊý¾Ý£¬ÒÑÑéÖ¤´Ëº¯Êý¿ÉÐÐ
 {
 	s->Pre->Next = s->Next;
 	if(s->Next != NULL)
@@ -124,8 +125,8 @@ void DeleteNode(LinkNode * s)//åˆ é™¤å•é“¾è¡¨ä¸­çš„æ•°æ®ï¼Œå·²éªŒè¯æ­¤å‡½æ•°å
 	}
 }
 
-LinkNode * CreatNode(LinkNode * a, LinkNode * b)//å·²æ£€éªŒï¼Œå‡½æ•°å¯è¡Œ
-{//æ­¤å‡½æ•°ç”¨æ¥è¿›è¡Œå¯¹ä¸¤ä¸ªèŠ‚ç‚¹è¿›è¡Œåˆå¹¶æˆä¸€é¢—æ ‘
+LinkNode * CreatNode(LinkNode * a, LinkNode * b)//ÒÑ¼ìÑé£¬º¯Êý¿ÉÐÐ
+{//´Ëº¯ÊýÓÃÀ´½øÐÐ¶ÔÁ½¸ö½Úµã½øÐÐºÏ²¢³ÉÒ»¿ÅÊ÷
 	LinkNode * newNode = (LinkNode *) malloc (sizeof(LinkNode));
 	newNode->weight = a->weight + b->weight;
 	newNode->LChild = a;
@@ -134,7 +135,7 @@ LinkNode * CreatNode(LinkNode * a, LinkNode * b)//å·²æ£€éªŒï¼Œå‡½æ•°å¯è¡Œ
 }
 
 void ConnectLink(LinkNode * head, LinkNode * newNode)
-{//æ­¤å‡½æ•°ç”¨æ¥è¿žæŽ¥ç”Ÿæˆçš„æ ‘çš„æ ¹ä¸Žé“¾è¡¨è¿žæŽ¥
+{//´Ëº¯ÊýÓÃÀ´Á¬½ÓÉú³ÉµÄÊ÷µÄ¸ùÓëÁ´±íÁ¬½Ó
 	newNode->Next = head->Next;
 	if(head->Next != NULL)
 	{
@@ -144,23 +145,23 @@ void ConnectLink(LinkNode * head, LinkNode * newNode)
 	head->Next = newNode;
 }
 
-LinkNode * Huffman(LinkNode * head) //ç”ŸæˆHuffmanä¸€é¢—æ ‘ï¼Œå¹¶ä¸”è¿”å›žRoot
-{	//å·²éªŒè¯ï¼Œæ­¤å‡½æ•°æœ‰æ•ˆ
-	//ä¿æŒheadæŒ‡é’ˆä¸å‘ç”Ÿå˜åŠ¨
-	while(head->Next->Next != NULL)//å•é“¾è¡¨æœ€åŽè‚¯å®šä¼šå‰©ä¸‹ä¸€ä¸ªèŠ‚ç‚¹ï¼ŒRoot
+LinkNode * Huffman(LinkNode * head) //Éú³ÉHuffmanÒ»¿ÅÊ÷£¬²¢ÇÒ·µ»ØRoot
+{	//ÒÑÑéÖ¤£¬´Ëº¯ÊýÓÐÐ§
+	//±£³ÖheadÖ¸Õë²»·¢Éú±ä¶¯
+	while(head->Next->Next != NULL)//µ¥Á´±í×îºó¿Ï¶¨»áÊ£ÏÂÒ»¸ö½Úµã£¬Root
 	{
-		LinkNode * a = FindMin(head);//æ‰¾weightæœ€å°çš„èŠ‚ç‚¹
-		DeleteNode(a);//æ‰¾åˆ°ä¹‹åŽå°±åœ¨å•é“¾è¡¨ä¸­åˆ é™¤è¿™ä¸ªèŠ‚ç‚¹
+		LinkNode * a = FindMin(head);//ÕÒweight×îÐ¡µÄ½Úµã
+		DeleteNode(a);//ÕÒµ½Ö®ºó¾ÍÔÚµ¥Á´±íÖÐÉ¾³ýÕâ¸ö½Úµã
 		LinkNode * b = FindMin(head);
 		DeleteNode(b);
-		LinkNode * c = CreatNode(a, b);//ç”¨æ‰¾åˆ°çš„ä¸¤ä¸ªweightæœ€å°çš„èŠ‚ç‚¹ç”Ÿæˆä¸€é¢—æ ‘
-		ConnectLink(head, c);//æŠŠæ–°ç”Ÿæˆçš„æ ‘çš„æ ¹èŠ‚ç‚¹è¿žæŽ¥åˆ°å•é“¾è¡¨ä¸­
+		LinkNode * c = CreatNode(a, b);//ÓÃÕÒµ½µÄÁ½¸öweight×îÐ¡µÄ½ÚµãÉú³ÉÒ»¿ÅÊ÷
+		ConnectLink(head, c);//°ÑÐÂÉú³ÉµÄÊ÷µÄ¸ù½ÚµãÁ¬½Óµ½µ¥Á´±íÖÐ
 	}
 	return head->Next;
 }
 
-void leafNodePrint(LinkNode *Root)//æ­¤å‡½æ•°ç”¨æ¥åšå®žéªŒï¼Œæ²¡äº‹ä¹ˆç”¨ï¼Œå¯åˆ 
-{//æ­¤å‡½æ•°ç”¨æ¥éåŽ†å¶å­èŠ‚ç‚¹ï¼Œå¹¶è¾“å‡ºå®ƒä»¬çš„dataåŸŸ
+void leafNodePrint(LinkNode *Root)
+{//´Ëº¯ÊýÓÃÀ´±éÀúÒ¶×Ó½Úµã£¬²¢Êä³öËüÃÇµÄdataÓò
 	if (Root != NULL)
 	{
 		if (Root->LChild == NULL && Root->RChild == NULL)
@@ -171,7 +172,7 @@ void leafNodePrint(LinkNode *Root)//æ­¤å‡½æ•°ç”¨æ¥åšå®žéªŒï¼Œæ²¡äº‹ä¹ˆç”¨ï¼Œå
 }
 
 void Transform(LinkNode * Root)
-{//æŠŠç»“ç‚¹ä¸­çš„PreæŒ‡é’ˆæŒ‡å‘çˆ¶èŠ‚ç‚¹
+{//°Ñ½áµãÖÐµÄPreÖ¸ÕëÖ¸Ïò¸¸½Úµã
 	if(Root != NULL)
 	{
 		if(Root->LChild != NULL)
@@ -184,22 +185,25 @@ void Transform(LinkNode * Root)
 }
 
 void initRoot(LinkNode * Root)
-{//æŠŠRootçš„PreæŒ‡é’ˆåŒ–ä¸ºç©º
+{//°ÑRootµÄPreÖ¸Õë»¯Îª¿Õ
 	Root->Pre = NULL;
 }
 
-void Encode(LinkNode *Root, Code * store)//è¿ç”¨å¤´æ’æ³•
-{
+void Encode(LinkNode *Root, Code * store)//ÔËÓÃÍ·²å·¨
+{//´Ëº¯ÊýÓÃÀ´¶ÔHuffmanÊ÷ÖÐµÄÒ¶×Ó½áµã×Ö·û½øÐÐ±àÂë£¬Éú³É¹þ·òÂü±àÂë
+	//Éú³ÉµÄ¹þ·òÂü±àÂë±àÐ´ÔÚÕ»ÖÐ£¨Õ»µÄ½áµãÀàÐÍStackNode£©
 	if (Root != NULL)
 	{
 		if (Root->LChild == NULL && Root->RChild == NULL)
 		{
 			LinkNode * temp = Root;
-			Code * hh = (Code *) malloc(sizeof(Code));
+			Code * hh = (Code *) malloc (sizeof(Code));
 			hh->Next = store->Next;
 			store->Next = hh;
 			
 			hh->codeTop = (StackNode *) malloc (sizeof(StackNode));
+			//hh->codeTop ÊÇÕ»µÄÕ»¶¥
+			hh->codeTop->Next = NULL;//´Ë´¦±ØÐë³õÊ¼»¯£¬·ñÔòÓÐ¿ÉÄÜ³öÏÖËÀÑ­»·´íÎó
 			hh->data = Root->data;
 			while(temp->Pre != NULL)
 			{
@@ -216,14 +220,16 @@ void Encode(LinkNode *Root, Code * store)//è¿ç”¨å¤´æ’æ³•
 }
 
 void bianli(Code * head)
-{//æŠŠå‚¨å­˜åœ¨æ ˆä¸­çš„1å’Œ0çš„ç¼–ç è¾“å‡ºå‡ºæ¥
+{//¸Ãº¯ÊýÓÃÀ´°Ñ×Ö·ûºÍ´æ·Å×Ö·û¹þ·òÂü±àÂëµÄÁ´±í±éÀúÒ»ÏÂ
 	Code * temp = head;
 	while(temp->Next != NULL)
 	{
 		temp = temp->Next;
+		printf("%c\t", temp->data);
 		Pop(temp->codeTop);
-		printf("\t\t\t%c\n", temp->data);
+		printf("\n");
 	}
 }
+
 
 

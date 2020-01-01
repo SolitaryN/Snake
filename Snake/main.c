@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <string.h>
 #include "Snake.h"
 int main(void)
 {
@@ -9,12 +7,8 @@ int main(void)
 	LinkNode  * Head = (LinkNode *) malloc (sizeof(LinkNode));
 	Top->Next = NULL;
 	Head->Next = NULL;
-	char *temp = "hhhwwwooopppppp";
+	char * temp = "This is a good day, and I think I will have good future.";
 	Statistic(Top, Head, temp);
-	// Pop(Top);//出栈函数
-	// printf("\n");
-
-	printf("输出每个字符对应的权值：\n");
 	LinkPrintWeight(Head);
 	
 	printf("生成的Haffman树的叶子结点的data域的值：\n");
@@ -26,7 +20,8 @@ int main(void)
 	//注意：它的编码存储在栈中，出栈后自然就倒置了过来
 	Transform(Root);
 	initRoot(Root);
-	Code * store = (Code *) malloc (sizeof(Code));
+	Code * store = (Code *) malloc (sizeof(Code));//头节点
+	store->Next = NULL;//初始化一下，避免可能出现死循环问题
 	Encode(Root, store);
 	bianli(store);
 	return 0;

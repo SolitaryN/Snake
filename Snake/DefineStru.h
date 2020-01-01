@@ -1,5 +1,3 @@
-#define TRUE 1
-#define FALSE 0
 typedef struct StackNode
 {
 	struct StackNode *Next;
@@ -13,8 +11,9 @@ typedef struct LinkNode
 	struct LinkNode *Next, *Pre;
 	struct LinkNode *LChild, *RChild;
 } LinkNode; //此处定义了单链表的节点，用来保存出现的都有哪些字符，还有字符出现的次数
+
 typedef struct code{
 	char data;
 	StackNode * codeTop;
 	struct code * Next;
-} Code;
+} Code;//这个结点类型用来保存字符和字符对应的哈夫曼编码
