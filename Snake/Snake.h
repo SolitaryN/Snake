@@ -91,13 +91,12 @@ void JudegeAppear(LinkNode *head, char data) //ÅĞ¶Ï×Ö·ûÊÇ·ñÔÚÕâ¸öÁ´±íÖĞ³öÏÖ¹ı£¬È
 	return ;
 }
 
-void Statistic(StackNode *Top, LinkNode *head, char *str)
+void Statistic(LinkNode *head, char *str)
 {//´Ëº¯ÊıÓÃÀ´Í³¼Æ×Ö·û´®ÖĞµÄ×Ö·ûµÄÈ¨Öµ
 	int i = 0;
 	while (*(str + i) != '\0')
 	{
 		JudegeAppear(head, *(str + i)); //ÅĞ¶ÏÊÇ·ñ×Ö·û³öÏÖ¹ı
-		Push(Top, *(str + i));			//ÈëÕ»
 		i++;
 	}
 }

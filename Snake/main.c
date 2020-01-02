@@ -13,7 +13,7 @@ int main(void)
 	char temp[STLEN];
 	fgets(temp, STLEN, stdin);
 	temp[strlen(temp) - 1] = '\0';//把换行符换成'\0'
-	Statistic(Top, Head, temp);
+	Statistic(Head, temp);
 	LinkPrintWeight(Head);
 	
 	printf("生成的Haffman树的叶子结点的data域的值：\n");
