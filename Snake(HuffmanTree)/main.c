@@ -3,8 +3,8 @@
 #define STLEN 1000
 int main(void)
 {
-	//³õÊ¼»¯Ò»ÏÂTopºÍHead
-	//´´½¨TopºÍHead£¬ËüÃÇ¶¼´øÍ·½áµã 
+	//åˆå§‹åŒ–ä¸€ä¸‹Topå’ŒHead
+	//åˆ›å»ºTopå’ŒHeadï¼Œå®ƒä»¬éƒ½å¸¦å¤´ç»“ç‚¹ 
 	StackNode * Top = (StackNode *) malloc (sizeof(StackNode));
 	LinkNode  * Head = (LinkNode *) malloc (sizeof(LinkNode));
 	Top->Next = NULL;
@@ -12,25 +12,25 @@ int main(void)
 	printf("input the text:");
 	char temp[STLEN];
 	fgets(temp, STLEN, stdin);
-	temp[strlen(temp) - 1] = '\0';//°Ñ»»ĞĞ·û»»³É'\0'
+	temp[strlen(temp) - 1] = '\0';//æŠŠæ¢è¡Œç¬¦æ¢æˆ'\0'
 	Statistic(Head, temp);
 	LinkPrintWeight(Head);
 	
-	printf("Éú³ÉµÄHaffmanÊ÷µÄÒ¶×Ó½áµãµÄdataÓòµÄÖµ£º\n");
-	LinkNode * Root = Huffman(Head);//¹ş·òÂüÊ÷µÄ¸ù½Úµã
+	printf("ç”Ÿæˆçš„Haffmanæ ‘çš„å¶å­ç»“ç‚¹çš„dataåŸŸçš„å€¼ï¼š\n");
+	LinkNode * Root = Huffman(Head);//å“ˆå¤«æ›¼æ ‘çš„æ ¹èŠ‚ç‚¹
 	leafNodePrint(Root);
 
-	printf("\nÃ¿¸ö×Ö·ûµÄHuffman±àÂëÎª£º\n");
-	//×¢Òâ£ºËüµÄ±àÂë´æ´¢ÔÚÕ»ÖĞ£¬³öÕ»ºó×ÔÈ»¾Íµ¹ÖÃÁË¹ıÀ´
+	printf("\næ¯ä¸ªå­—ç¬¦çš„Huffmanç¼–ç ä¸ºï¼š\n");
+	//æ³¨æ„ï¼šå®ƒçš„ç¼–ç å­˜å‚¨åœ¨æ ˆä¸­ï¼Œå‡ºæ ˆåè‡ªç„¶å°±å€’ç½®äº†è¿‡æ¥
 	Transform(Root);
 	initRoot(Root);
-	Code * store = (Code *) malloc (sizeof(Code));//Í·½Úµã
-	store->Next = NULL;//³õÊ¼»¯Ò»ÏÂ£¬±ÜÃâ¿ÉÄÜ³öÏÖËÀÑ­»·ÎÊÌâ
+	Code * store = (Code *) malloc (sizeof(Code));//å¤´èŠ‚ç‚¹
+	store->Next = NULL;//åˆå§‹åŒ–ä¸€ä¸‹ï¼Œé¿å…å¯èƒ½å‡ºç°æ­»å¾ªç¯é—®é¢˜
 	Encode(Root, store);
 	bianli(store);
 
-	//°ÑÎÄ±¾×ª»¯²¢Êä³ö¹ş·òÂüÂë
-	printf("ÎÄ±¾µÄHuffmanÂëÎª:\n");
+	//æŠŠæ–‡æœ¬è½¬åŒ–å¹¶è¾“å‡ºå“ˆå¤«æ›¼ç 
+	printf("æ–‡æœ¬çš„Huffmanç ä¸º:\n");
 	EncodeText(temp, store);
 	return 0;
 }
